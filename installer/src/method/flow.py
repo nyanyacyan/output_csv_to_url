@@ -67,11 +67,11 @@ class SingleProcess:
         self.chrome = self.chromeManager.flowSetupChrome()
 
         # const
-        self.const_gss_info = GssInfo.INSTA.value
-        self.const_login_info = LoginInfo.INSTA.value
-        self.const_element = Element.INSTA.value
-        self.const_err_cmt_dict = ErrCommentInfo.INSTA.value
-        self.popup_cmt = PopUpComment.INSTA.value
+        self.const_gss_info = GssInfo.OUTPUT_CSV.value
+        self.const_login_info = LoginInfo.OUTPUT_CSV.value
+        self.const_element = Element.OUTPUT_CSV.value
+        self.const_err_cmt_dict = ErrCommentInfo.OUTPUT_CSV.value
+        self.popup_cmt = PopUpComment.OUTPUT_CSV.value
 
         # Flow
         self.get_gss_df_flow = GetGssDfFlow()
@@ -104,179 +104,103 @@ class SingleProcess:
     def _single_process(self):
         """各プロセスを実行する"""
         try:
-            #* 今回はログインあとのフロートする
-            # GSSよりデータ取得→dfを作成
-            target_df = self.get_gss_df_flow.process(worksheet_name=self.const_gss_info['TARGET_WORKSHEET_NAME'])
-            account_info = self.get_gss_df_flow.get_account_process(worksheet_name=self.const_gss_info['ACCOUNT_WORKSHEET_NAME'])
-
+            id_text = self.const_login_info['ID_TEXT']
             # ログイン
-            self.login.flowLoginID(id_text=account_info['GSS_ID_TEXT'], pass_text=account_info['GSS_PASS_TEXT'], login_info=self.const_login_info)
+            self.login.flowLoginID(id_text=self.const_login_info['ID_INPUT_TEXT'], pass_text=self.const_login_info['PASS_INPUT_TEXT'], login_info=self.const_login_info)
 
             # 対象のページが開いているかどうかを確認
-            self.wait.canWaitClick(value=self.const_element['value_1'])
+            self.get_element.clickElement(by=self.const_element['by_5'], value=self.const_element['value_5'])
 
-            account_process_count = 1
-            # ターゲットユーザーのURLリストを下に下記のフローを回す
-            for index, row in target_df.iterrows():
-                self.logger.debug(f"{account_process_count} / {len(target_df)} ユーザーアカウント処理開始")
-                row_num = index + 1
-                row_dict = row.to_dict()
-                self.logger.debug(f"row_dict: {row_dict}")
-
-                target_user_url = row_dict[self.const_gss_info["TARGET_USER_URL"]]
-                start_daytime = row_dict[self.const_gss_info["START_DAYTIME"]]
-                running_date = row_dict[self.const_gss_info["RUNNING_DATE"]]
-                write_error = row_dict[self.const_gss_info["WRITE_ERROR"]]
-                target_worksheet_url = row_dict[self.const_gss_info["TARGET_WORKSHEET_URL"]]
-                target_worksheet_name = row_dict[self.const_gss_info["TARGET_COLUMN_WORKSHEET_NAME"]]
+            # 詳細検索クリック
+            self.get_element.clickElement(by=self.const_element['by_5'], value=self.const_element['value_5'])
 
 
-                # アナウンス
-                self.logger.info(f"【{index + 1}つ目】の実行  URL: {target_user_url}")
-
-                # それぞれ書き出すセルアドレスを取得
-                gss_date_cell = self.select_cell.get_cell_address(gss_row_dict=row_dict, col_name=self.const_gss_info["RUNNING_DATE"], row_num=row_num)
-                gss_err_cell = self.select_cell.get_cell_address(gss_row_dict=row_dict, col_name=self.const_gss_info["WRITE_ERROR"], row_num=row_num)
-                self.logger.debug(f"\ntarget_user_url: {target_user_url}\nstart_daytime: {start_daytime}\nrunning_date: {running_date}\nwrite_error: {write_error}\ntarget_worksheet_url: {target_worksheet_url}\ntarget_worksheet_name: {target_worksheet_name}\n")
-                self.logger.debug(f"実施日: {gss_date_cell}\nエラー記入箇所: {gss_err_cell}")
-
-                if start_daytime == "":
-                    self.logger.debug(f"スプシの{index + 1}番目の「取得開始日時」が入力されてません: {start_daytime}")
-                    # 開始日付が空白の場合は、エラーにする→POPUP
-                    self.popup.popupCommentOnly( title=self.popup_cmt['POPUP_TITLE_SHEET_INPUT_ERR'], comment=self.popup_cmt['POPUP_TITLE_SHEET_START_DATE'])
-                    raise
-
-                # アカウント毎WSフォーマットリスト
-                new_ws_col= [self.const_gss_info['TARGET_INPUT_USERNAME'], self.const_gss_info['TARGET_INPUT_USER_URL'], self.const_gss_info['TARGET_INPUT_TYPE'], self.const_gss_info['TARGET_INPUT_DATE']]
-                self.logger.debug(f"new_ws_col: {new_ws_col}")
-
-                # 対象のワークシート存在確認
-                self.gss_write._check_ws(gss_info=self.const_gss_info, ws_name=target_worksheet_name, col_list=new_ws_col)
-
-                # 新しいタブを開いてURLにアクセス
-                main_window = self.chrome.current_window_handle
-                self.get_element._open_new_page(url=target_user_url)
-                self.random_sleep._random_sleep(2, 5)
-                #TODO ここに要素が出てから出ないとダメかも
-
-                # ピン留めされた投稿数を取得
-                pin_element = self.get_element.getElements(by=self.const_element['by_2'], value=self.const_element['value_2'])
-                if not pin_element:
-                    self.logger.debug(f"ピン留めされた投稿はありません")
-                    pin_count = 0
-                else:
-                    pin_count = len(pin_element)
-                    self.logger.debug(f"ピン留めされた投稿要素: {pin_element}")
-                    self.logger.debug(f"【{index + 1}つ目】ピン留めされた投稿数: {pin_count}つ")
-
-                # 最初の投稿をクリック
-                self.get_element.clickElement(value=self.const_element['value_3'])
-                self.random_sleep._random_sleep(2, 5)
-
-                count = 0
-                # pin_count分は除外
-                while True:
-                    self.logger.info(f"count: {count + 1} 回目 / ピン留め数: {pin_count}個: ループ処理開始")
-
-                    # 日付を取得する
-                    post_date_str = self.get_element._get_attribute_to_element(by=self.const_element['by_4'], value=self.const_element['value_4'], attribute_value='datetime')
-                    self.logger.debug(f"投稿日時: {post_date_str}")
-                    self.logger.debug(f"投稿日時の型: {type(post_date_str)}")
-
-                    # post_date投稿日時をdatetime型に変換
-                    post_date = datetime.strptime(post_date_str, "%Y-%m-%dT%H:%M:%S.%fZ")
-                    self.logger.debug(f"修正した取得した投稿日時の型: {type(post_date)}")
-
-                    # start_daytimeとend_daytimeの差分（取得したい日付リスト生成）→日付データをdatetime型に変換
-                    replace_start_date = self.date_manager._replace_date(date_str=start_daytime)
-                    self.logger.debug(f"取得した投稿日時: {type(post_date)} {post_date}, {type(replace_start_date)} {replace_start_date}")
-
-                    # 日付突合
-                    if replace_start_date <= post_date:
-                        self.logger.info(f"日付チェックOK: {post_date}")
-                        self.random_sleep._random_sleep(2, 5)
-
-                        #* コメントFlowの実施
-                        self.comment_flow.process(target_worksheet_name=target_worksheet_name)
-                        self.random_sleep._random_sleep(2, 5)
+            # キーワード欄に入力
+            self.get_element.clickClearInput(value=self.const_element['value_1'])
 
 
-                        #* いいねFlowの実施
-                        #TODO 要素があるまで待機仕様
-                        self.good_flow.process(target_worksheet_name=target_worksheet_name)
-                        self.random_sleep._random_sleep(2, 5)
-
-                        # いいねのモーダルを閉じる（close）
-                        ActionChains(self.chrome).send_keys(Keys.ESCAPE).perform()
-                        self.logger.debug(f"いいねのモーダルを閉じる")
-                        self.random_sleep._random_sleep(2, 5)
-
-                        # 次へのボタンを押下
-                        ActionChains(self.chrome).send_keys(Keys.ARROW_RIGHT).perform()
-                        self.logger.debug(f"次へのボタンを押下")
-                        self.random_sleep._random_sleep(2, 5)
-
-                        # カウントがピン留めされている数よりも少ない場合には追加する
-                        if count <= pin_count:
-                            self.logger.debug(f"ピン留め投稿分: {count}")
-                            count += 1
-                            self.logger.info(f"ピン留めの上限に達していないため再度ループに戻ります: {count}回目の実施")
-                            continue
-                        else:
-                            self.logger.debug(f"ピン留め分のスキップは上限に達しています: {count}")
-                            continue
+            # 対象の期間をクリック（引数には要素を渡す？）
+            self.get_element.clickElement(by=self.const_element['by_5'], value=self.const_element['value_5'])
 
 
 
-                    # 日付チェックNGフローの実行
-                    else:
-                        self.logger.warning(f"指定した日付以前の投稿を検知: {post_date}")
-                        if count <= pin_count:
-                            self.logger.info(f"ピン留め投稿分のためスキップします: {count}")
+            # 選択をクリック
+            self.get_element.clickElement(by=self.const_element['by_5'], value=self.const_element['value_5'])
 
-                            # 次へのボタンを押下
-                            ActionChains(self.chrome).send_keys(Keys.ARROW_RIGHT).perform()
-                            self.logger.debug(f"次へのボタンを押下")
-                            self.random_sleep._random_sleep(2, 5)
 
-                            count += 1
-                            continue
-                        else:
-                            self.logger.warning(f"日付が指定以前の投稿になったため、ループを終了して次のユーザーに移ります: {post_date}")
-                            break
 
-                # 投稿完了→スプシに日付の書込
-                self.logger.debug(f"投稿完了→スプシに日付の書込")
-                self.logger.debug(f"cell: {gss_date_cell}")
-                self.gss_write.write_data_by_url(gss_info=self.const_gss_info, cell=gss_date_cell, input_data=self.timestamp)
+            # 検索をクリック（EnterKey可）
+            self.get_element.clickElement(by=self.const_element['by_5'], value=self.const_element['value_5'])
 
-                # 対象のタブを閉じる
-                self.chrome.close()
-                self.chrome.switch_to.window(main_window)
-                self.logger.debug(f"タブを閉じました: {target_user_url}")
-                self.logger.warning(f"【{account_process_count + 1}つ目】処理完了  URL: {target_user_url}")
-                account_process_count += 1
+
+
+            # 要素のリスト取得（テーブルの取得）
+            elements = self.get_element.getElements(by=self.const_element['by_2'], value=self.const_element['value_2'])
+
+
+            csv_list = []
+            # 要素１つずつにアクセス
+            for element in elements:
+
+                # 国名が書かれている要素を取得
+                country_name_element = self.get_element.getElement(by=self.const_element['by_2'], value=self.const_element['value_2'])
+
+                # 国名,抽出
+                if country_name_element is None:
+                    self.logger.error(f"{self.__class__.__name__} 国名の要素が見つかりませんでした。")
+                    continue
+
+                country_name = country_name_element.text
+                self.logger.info(f"国名: {country_name}")
+
+                # 記事名(タイトル)が書かれている要素を取得
+                title_element = self.get_element.getElement(by=self.const_element['by_2'], value=self.const_element['value_2'])
+
+                # 記事名(タイトル),抽出
+                if title_element is None:
+                    self.logger.error(f"{self.__class__.__name__} 記事名の要素が見つかりませんでした。")
+                    continue
+
+                country_name = title_element.text
+                self.logger.info(f"記事名: {country_name}")
+
+                # URLが書かれている要素を取得
+                url_element = self.get_element.getElement(by=self.const_element['by_2'], value=self.const_element['value_2'])
+
+                if url_element is None:
+                    self.logger.error(f"{self.__class__.__name__} URLの要素が見つかりませんでした。")
+                    continue
+
+                # URL,抽出
+                url = url_element.get_attribute("href")
+                self.logger.info(f"URL: {url}")
+
+
+                # URLのリプライス（?highlight=ビザ などのおしり部分を削除）
+
+
+                # 抽出したものを","で結合
+                join_element = ",".join(country_name, title_element, url_element)
+                self.logger.info(f"結合した要素: {join_element}")
+
+                # リストに追加
+                csv_list.append(join_element)
+
+            self.logger.info(f"csv_list: {csv_list}")
+
+            # csvファイルに書き込めるように修正
+
+            # csvファイルに書き込み
+
 
         except TimeoutError:
             timeout_comment = "タイムエラー：ログインに失敗している可能性があります。"
             self.logger.error(f"{self.__class__.__name__} {timeout_comment}")
-            # エラータイムスタンプ
-            self.gss_write.write_data_by_url( gss_info=self.const_gss_info, cell=gss_date_cell, input_data=self.timestamp_two )
-
-            # エラーコメント
-            self.gss_write.write_data_by_url( gss_info=self.const_gss_info, cell=gss_err_cell, input_data="NG" )
-
 
         except Exception as e:
             process_error_comment = ( f"{self.__class__.__name__} 処理中にエラーが発生 {e}" )
             self.logger.error(process_error_comment)
 
-            # エラータイムスタンプ
-            self.logger.debug(f"self.timestamp: {self.timestamp}")
-            self.gss_write.write_data_by_url( gss_info=self.const_gss_info, cell=gss_date_cell, input_data=self.timestamp_two )
-
-            # エラーコメント
-            self.gss_write.write_data_by_url( gss_info=self.const_gss_info, cell=gss_err_cell, input_data=process_error_comment )
 
         finally:
             # ✅ Chrome を終了

@@ -19,7 +19,7 @@ load_dotenv()
 
 class GssInfo(Enum):
 
-    INSTA = {
+    OUTPUT_CSV = {
         "JSON_KEY_NAME": "sns-auto-430920-08274ad68b41.json",
         "SHEET_URL": "https://docs.google.com/spreadsheets/d/1g7ycnDup8DYweQA7J1y7yT-ADrsvWSjw8ILQVdYcBEo/edit?gid=931453217#gid=931453217",
         "TARGET_WORKSHEET_NAME": "ターゲットリスト",
@@ -62,10 +62,10 @@ class GssInfo(Enum):
 
 class LoginInfo(Enum):
 
-    INSTA = {
-        "LOGIN_URL": "https://www.instagram.com/",
+    OUTPUT_CSV = {
+        "LOGIN_URL": "https://www.nna.jp/login?redirect_url=/",
         "HOME_URL": "",
-        "EXPLORE_URL": "https://www.instagram.com/mon_guchi/p/DHipkplzBpR/",
+        "EXPLORE_URL": "https://www.OUTPUT_CSVgram.com/mon_guchi/p/DHipkplzBpR/",
         "ID_BY": "name",
         "ID_VALUE": "username",
         "PASS_BY": "name",
@@ -76,8 +76,8 @@ class LoginInfo(Enum):
         "LOGIN_AFTER_ELEMENT_VALUE": "//li[contains(@class, 'sidebar-item') and .//a[contains(text(), 'フォロワー分析')]]",
 
         # 入力
-        "ID_INPUT_TEXT": os.getenv("INSTA_ID"),
-        "PASS_INPUT_TEXT": os.getenv("INSTA_PASS"),
+        "ID_INPUT_TEXT": os.getenv("SITE_ID"),
+        "PASS_INPUT_TEXT": os.getenv("SITE_PASS"),
 
     }
 
@@ -87,7 +87,7 @@ class LoginInfo(Enum):
 
 class ErrCommentInfo(Enum):
 
-    INSTA = {
+    OUTPUT_CSV = {
 
         # POPUP_TITLE
         "POPUP_TITLE_SHEET_INPUT_ERR": "スプレッドシートをご確認ください。",
@@ -107,7 +107,7 @@ class ErrCommentInfo(Enum):
 
 
 class PopUpComment(Enum):
-    INSTA = {
+    OUTPUT_CSV = {
         "POPUP_COMPLETE_TITLE": "処理完了",
         "POPUP_COMPLETE_MSG": "正常に処理が完了しました。",
         "": "",
@@ -117,7 +117,7 @@ class PopUpComment(Enum):
 # ----------------------------------------------------------------------------------
 
 class CommentFlowElement(Enum):
-    INSTA = {
+    OUTPUT_CSV = {
         "GSS_COLUMN_NAME": "コメント or いいね",
         "INPUT_WORD_COMMENT": "コメント",
         "INPUT_WORD_GOOD": "いいね",
@@ -128,7 +128,7 @@ class CommentFlowElement(Enum):
 # ----------------------------------------------------------------------------------
 
 class Element(Enum):
-    INSTA = {
+    OUTPUT_CSV = {
 
         "by_1": 'xpath',
         "value_1": '//a[.//span[text()="検索"]]',
