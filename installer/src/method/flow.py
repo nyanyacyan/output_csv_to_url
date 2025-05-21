@@ -7,6 +7,7 @@
 # import
 import os
 from datetime import datetime
+from selenium.common.exceptions import ElementClickInterceptedException, ElementNotInteractableException, NoSuchElementException, TimeoutException, WebDriverException
 
 # 自作モジュール
 from method.base.utils.logger import Logger
@@ -48,7 +49,7 @@ class SingleProcess:
         self.getLogger = Logger()
         self.logger = self.getLogger.getLogger()
         self.timestamp = datetime.now()
-        self.timestamp_two = self.timestamp.strftime("%Y-%m-%d %H:%M")
+        self.timestamp_two = self.timestamp.strftime("%Y-%m-%d_%H-%M")
         self.date_only_stamp = self.timestamp.date().strftime("%m月%d日")
 
         # ✅ Chrome の起動をここで行う
@@ -94,7 +95,10 @@ class SingleProcess:
             self.random_sleep._random_sleep(2, 5)
 
             # ログイン移行画面があるか確認
-            login_after_element = self.get_element.getElement(by=self.const_login_info['LOGIN_AFTER_ELEMENT_BY'], value=self.const_login_info['LOGIN_AFTER_ELEMENT_VALUE'])
+            try:
+                login_after_element = self.get_element.getElement(by=self.const_login_info['LOGIN_AFTER_ELEMENT_BY'], value=self.const_login_info['LOGIN_AFTER_ELEMENT_VALUE'])
+            except NoSuchElementException:
+                login_after_element = None
 
             # ログイン移行画面があった場合に「はい」をクリックする
             if login_after_element:
@@ -152,7 +156,7 @@ class SingleProcess:
             file_name = f"nna_{self.timestamp_two}"
 
             # csvファイルに書き込み
-            self.file_write.write_cst_to_list(col_names=self.const_csv_info['CSV_COLUMN_NAME'], data=csv_list, fileName=file_name)
+            self.file_write.write_cst_to_list(col_names=self.const_csv_info['COL_NAME'], data=csv_list, fileName=file_name)
 
 
         except TimeoutError:
