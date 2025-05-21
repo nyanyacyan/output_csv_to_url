@@ -1,18 +1,12 @@
 # coding: utf-8
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # export PYTHONPATH="/Users/nyanyacyan/Desktop/project_file/ccx_csv_to_drive/installer/src"
-# export PYTHONPATH="/Users/nyanyacyan/Desktop/Project_file/output_csv_exe/installer/src"
+# export PYTHONPATH="/Users/nyanyacyan/Desktop/Project_file/output_csv_to_url/installer/src"
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # import
-import os, time
-import pandas as pd
-import concurrent.futures
-from typing import Dict
-from datetime import datetime, date, timedelta
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
+import os
+from datetime import datetime
 
 # 自作モジュール
 from method.base.utils.logger import Logger
@@ -22,7 +16,6 @@ from method.base.selenium.seleniumBase import SeleniumBasicOperations
 from method.base.spreadsheet.spreadsheetRead import GetDataGSSAPI
 from method.base.selenium.get_element import GetElement
 from method.base.decorators.decorators import Decorators
-from method.base.utils.time_manager import TimeManager
 from method.base.selenium.google_drive_download import GoogleDriveDownload
 from method.base.spreadsheet.spreadsheetWrite import GssWrite
 from method.base.spreadsheet.select_cell import GssSelectCell
@@ -32,14 +25,13 @@ from method.base.utils.popup import Popup
 from method.base.selenium.click_element import ClickElement
 from method.base.utils.file_move import FileMove
 from method.base.selenium.google_drive_upload import GoogleDriveUpload
-from method.get_gss_df_flow import GetGssDfFlow
 from method.base.selenium.driverWait import Wait
-# from method.base.utils.date_manager import DateManager
 from method.base.utils.sub_date_mrg import DateManager
+from method.base.utils.fileWrite import FileWrite
 
 
 # const
-from method.const_element import ( GssInfo, LoginInfo, ErrCommentInfo, PopUpComment, Element, )
+from method.const_element import ( CsvInfo, LoginInfo, ErrCommentInfo, PopUpComment, Element, )
 
 # flow
 
@@ -64,11 +56,11 @@ class SingleProcess:
         self.chrome = self.chromeManager.flowSetupChrome()
 
         # const
-        self.const_gss_info = GssInfo.OUTPUT_CSV.value
         self.const_login_info = LoginInfo.OUTPUT_CSV.value
         self.const_element = Element.OUTPUT_CSV.value
         self.const_err_cmt_dict = ErrCommentInfo.OUTPUT_CSV.value
         self.popup_cmt = PopUpComment.OUTPUT_CSV.value
+        self.const_csv_info = CsvInfo.OUTPUT_CSV.value
 
 
         # インスタンス
@@ -88,7 +80,7 @@ class SingleProcess:
         self.wait = Wait(chrome=self.chrome)
         self.date_manager = DateManager()
         self.select_cell = GssSelectCell()
-
+        self.file_write = FileWrite()
 
     # **********************************************************************************
     # ----------------------------------------------------------------------------------
@@ -141,9 +133,6 @@ class SingleProcess:
                 country_name = country_name_element.text
                 self.logger.info(f"国名: {country_name}")
 
-                # 記事名(タイトル)が書かれている要素を取得
-                title_element = self.get_element.filterElement(parentElement=element, by=self.const_element['by_3'], value=self.const_element['value_3'])
-
                 # URLが書かれている要素を取得
                 url_elements = self.get_element.filterElements(parentElement=element, by=self.const_element['by_4'], value=self.const_element['value_4'])
                 self.logger.info(f"url_elements: {url_elements} 要素数: {len(url_elements)}つ")
@@ -154,18 +143,16 @@ class SingleProcess:
                 title_str = url_elements[1].text
                 self.logger.info(f"記事名: {title_str}")
 
-                # 抽出したものを","で結合
-                join_element = ",".join([country_name, title_str, url_str])
-                self.logger.info(f"結合した要素: {join_element}")
-
                 # リストに追加
-                csv_list.append(join_element)
+                csv_list.append([country_name, title_str, url_str])
 
             self.logger.info(f"csv_list: {csv_list}")
 
             # csvファイルに書き込めるように修正
+            file_name = f"nna_{self.timestamp_two}"
 
             # csvファイルに書き込み
+            self.file_write.write_cst_to_list(col_names=self.const_csv_info['CSV_COLUMN_NAME'], data=csv_list, fileName=file_name)
 
 
         except TimeoutError:

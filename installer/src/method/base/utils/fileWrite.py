@@ -89,6 +89,26 @@ class FileWrite:
             self._existsCheck(fullPath=fullPath)
 
     # ----------------------------------------------------------------------------------
+    # csv
+
+    @decoInstance.fileRetryAction(maxRetry=2, delay=2)
+    def write_cst_to_list(self, col_names: List, data: Any, fileName: str, extension: str = ".csv"):
+        fullPath = self.path.getWriteFilePath(fileName=fileName)
+        filePath = os.path.join(fullPath, f"{self.currentDate}{extension}")
+        self.logger.debug(f"filePath: {filePath}")
+        self.logger.debug(f"col_names: {col_names}")
+        self.logger.debug(f"data: {data}")
+
+        if data and fileName:
+            # ? newline=''→Windows環境にて余計な空行を防ぐOP
+            with open(filePath, "w", newline="", encoding="utf-8") as file:
+                csvWriter = csv.writer(file)  # CSV形式で書き込む
+                csvWriter.writerow(col_names)  # ヘッダーの書き込み
+                csvWriter.writerows( data )  # 通常は1行にまとめってしまうのを開業してきれいにしてくれる
+
+            self._existsCheck(fullPath=fullPath)
+
+    # ----------------------------------------------------------------------------------
     # json
 
     @decoInstance.fileRetryAction(maxRetry=2, delay=2)

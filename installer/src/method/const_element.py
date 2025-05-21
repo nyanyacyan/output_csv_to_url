@@ -156,40 +156,15 @@ class Element(Enum):
         "by_4": "tag",
         "value_4": 'a',
 
-        # いいねボタン
-        "by_5": "xpath",
-        "value_5": "//a[contains(@href, '/liked_by/') and @role='link']",
-
-        # いいねのuserリストの取得
-        "value_6": '//div[@role="dialog"]//div[contains(@style, "overflow")]',
-
-
-        # 次への要素
-        "value_7": '//button//*[name()="svg"][@aria-label="次へ"]',
-
-        # コメントユーザー要素
-        "by_12": "tag",
-        "value_12": 'ul',
-        "by_13": "tag",
-        "value_13": 'li',
-        "by_14": "tag",
-        "value_14": 'h3',
-        "by_15": "tag",
-        "value_15": 'a',
-
-
-        # いいねのmodal要素
-        "value_9": '//div[@role="dialog"]//div[contains(@style, "overflow")]',
-        "value_10": './/a[starts-with(@href, "/") and string-length(@href) > 1]',
-        "value_11": './/a[starts-with(@href, "/") and string-length(@href) > 1]',
-
-        # いいねのクリックがその他の場合の要素
-        "value_12": '//a[span[text()="その他"] and contains(@href, "liked_by")]',
-        "": "",
-        "": "",
-
     }
 
 # ----------------------------------------------------------------------------------
 
 
+class CsvInfo(Enum):
+    OUTPUT_CSV = {
+        "COL_NAME":  '["国名", "タイトル", "URL"]',
+        "": "",
+
+
+    }
