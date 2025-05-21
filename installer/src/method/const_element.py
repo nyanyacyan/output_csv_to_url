@@ -66,14 +66,14 @@ class LoginInfo(Enum):
         "LOGIN_URL": "https://www.nna.jp/login?redirect_url=/",
         "HOME_URL": "",
         "EXPLORE_URL": "https://www.OUTPUT_CSVgram.com/mon_guchi/p/DHipkplzBpR/",
-        "ID_BY": "name",
-        "ID_VALUE": "username",
-        "PASS_BY": "name",
+        "ID_BY": "id",
+        "ID_VALUE": "user_code",
+        "PASS_BY": "id",
         "PASS_VALUE": "password",
         "BTN_BY": "xpath",
-        "BTN_VALUE": "//button[.//div[text()='ログイン']]",
+        "BTN_VALUE": "//button[@label='ログイン']",
         "LOGIN_AFTER_ELEMENT_BY": "xpath",
-        "LOGIN_AFTER_ELEMENT_VALUE": "//li[contains(@class, 'sidebar-item') and .//a[contains(text(), 'フォロワー分析')]]",
+        "LOGIN_AFTER_ELEMENT_VALUE": '//button[.//span[text()="はい"]]',
 
         # 入力
         "ID_INPUT_TEXT": os.getenv("SITE_ID"),
@@ -129,21 +129,32 @@ class CommentFlowElement(Enum):
 
 class Element(Enum):
     OUTPUT_CSV = {
+        # ログイン移行画面の際にクリックする要素
+        "LOGIN_TRANSFER_ID": "xpath",
+        "LOGIN_TRANSFER_VALUE": '//button[.//span[text()="はい"]]',
 
-        "by_1": 'xpath',
-        "value_1": '//a[.//span[text()="検索"]]',
-        "TEST_USERNAME": "mon_guchi",
+        # main要素の取得
+        "BY_MAIN": 'tag',
+        "VALUE_MAIN": 'main',
 
-        # ピン留めされた要素の取得
-        "by_2": "css",
-        "value_2": 'svg[aria-label="ピン留めされた投稿のアイコン"]',
+        # li要素の取得
+        "by_0": 'tag',
+        "value_0": 'ul',
 
-        # 最初の投稿の取得
-        "value_3": '(//div[contains(@style, "flex-direction: column")]//a[@role="link"])[1]',
+        # li要素の取得
+        "by_1": 'tag',
+        "value_1": 'li',
 
-        # 日付要素
-        "by_4": "xpath",
-        "value_4": "//time",
+        # 国名の取得
+        "value_2": '//a[@class="tag--country"]',
+
+        # 記事名の取得
+        "by_3": "tag",
+        "value_3": 'h2',
+
+        # URLの取得
+        "by_4": "tag",
+        "value_4": 'a',
 
         # いいねボタン
         "by_5": "xpath",

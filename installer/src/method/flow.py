@@ -1,7 +1,7 @@
 # coding: utf-8
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # export PYTHONPATH="/Users/nyanyacyan/Desktop/project_file/ccx_csv_to_drive/installer/src"
-# export PYTHONPATH="/Users/nyanyacyan/Desktop/Project_file/instagram_list_tool/installer/src"
+# export PYTHONPATH="/Users/nyanyacyan/Desktop/Project_file/output_csv_exe/installer/src"
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # import
@@ -42,9 +42,6 @@ from method.base.utils.sub_date_mrg import DateManager
 from method.const_element import ( GssInfo, LoginInfo, ErrCommentInfo, PopUpComment, Element, )
 
 # flow
-# from method.good_flow import GetUserToInsta
-from method.comment_flow import CommentFlow
-from method.good_flow import GoodFlow
 
 deco = Decorators()
 
@@ -73,11 +70,6 @@ class SingleProcess:
         self.const_err_cmt_dict = ErrCommentInfo.OUTPUT_CSV.value
         self.popup_cmt = PopUpComment.OUTPUT_CSV.value
 
-        # Flow
-        self.get_gss_df_flow = GetGssDfFlow()
-        # self.get_user_data = GetUserToInsta(chrome=self.chrome)
-        self.comment_flow = CommentFlow(chrome=self.chrome)
-        self.good_flow = GoodFlow(chrome=self.chrome)
 
         # インスタンス
         self.login = SingleSiteIDLogin(chrome=self.chrome)
@@ -101,49 +93,45 @@ class SingleProcess:
     # **********************************************************************************
     # ----------------------------------------------------------------------------------
 
-    def _single_process(self):
+    def _single_process(self, url):
         """各プロセスを実行する"""
         try:
-            id_text = self.const_login_info['ID_TEXT']
+            # 引数にキーワード、期間、
             # ログイン
             self.login.flowLoginID(id_text=self.const_login_info['ID_INPUT_TEXT'], pass_text=self.const_login_info['PASS_INPUT_TEXT'], login_info=self.const_login_info)
+            self.random_sleep._random_sleep(2, 5)
 
-            # 対象のページが開いているかどうかを確認
-            self.get_element.clickElement(by=self.const_element['by_5'], value=self.const_element['value_5'])
+            # ログイン移行画面があるか確認
+            login_after_element = self.get_element.getElement(by=self.const_login_info['LOGIN_AFTER_ELEMENT_BY'], value=self.const_login_info['LOGIN_AFTER_ELEMENT_VALUE'])
 
-            # 詳細検索クリック
-            self.get_element.clickElement(by=self.const_element['by_5'], value=self.const_element['value_5'])
+            # ログイン移行画面があった場合に「はい」をクリックする
+            if login_after_element:
+                self.logger.info(f"{self.__class__.__name__} ログイン移行画面が表示されました。")
+                self.click_element.clickElement(by=self.const_element['LOGIN_TRANSFER_ID'], value=self.const_element['LOGIN_TRANSFER_VALUE'])
+                self.random_sleep._random_sleep(2, 5)
+            else:
+                self.logger.info(f"{self.__class__.__name__} ログイン移行画面は表示されませんでした。")
 
-
-            # キーワード欄に入力
-            self.get_element.clickClearInput(value=self.const_element['value_1'])
-
-
-            # 対象の期間をクリック（引数には要素を渡す？）
-            self.get_element.clickElement(by=self.const_element['by_5'], value=self.const_element['value_5'])
-
-
-
-            # 選択をクリック
-            self.get_element.clickElement(by=self.const_element['by_5'], value=self.const_element['value_5'])
-
-
-
-            # 検索をクリック（EnterKey可）
-            self.get_element.clickElement(by=self.const_element['by_5'], value=self.const_element['value_5'])
-
-
+            # 新しいページでurlを開く
+            self.get_element._open_new_page(url=url)
+            self.random_sleep._random_sleep(2, 5)
 
             # 要素のリスト取得（テーブルの取得）
-            elements = self.get_element.getElements(by=self.const_element['by_2'], value=self.const_element['value_2'])
+            main_element = self.get_element.getElement(by=self.const_element['BY_MAIN'], value=self.const_element['VALUE_MAIN'])
+            self.logger.info(f"main_element: {main_element}")
 
+            ul_elements = self.get_element.filterElement(parentElement=main_element, by=self.const_element['by_0'], value=self.const_element['value_0'])
+            self.logger.info(f"ul_elements: {ul_elements}")
+
+            li_elements = self.get_element.filterElements(parentElement=ul_elements, by=self.const_element['by_1'], value=self.const_element['value_1'])
+            self.logger.info(f"li_elements: {li_elements} 要素数: {len(li_elements)}つ")
 
             csv_list = []
             # 要素１つずつにアクセス
-            for element in elements:
+            for element in li_elements:
 
                 # 国名が書かれている要素を取得
-                country_name_element = self.get_element.getElement(by=self.const_element['by_2'], value=self.const_element['value_2'])
+                country_name_element = self.get_element.filterElement(parentElement=element, value=self.const_element['value_2'])
 
                 # 国名,抽出
                 if country_name_element is None:
@@ -154,33 +142,20 @@ class SingleProcess:
                 self.logger.info(f"国名: {country_name}")
 
                 # 記事名(タイトル)が書かれている要素を取得
-                title_element = self.get_element.getElement(by=self.const_element['by_2'], value=self.const_element['value_2'])
-
-                # 記事名(タイトル),抽出
-                if title_element is None:
-                    self.logger.error(f"{self.__class__.__name__} 記事名の要素が見つかりませんでした。")
-                    continue
-
-                country_name = title_element.text
-                self.logger.info(f"記事名: {country_name}")
+                title_element = self.get_element.filterElement(parentElement=element, by=self.const_element['by_3'], value=self.const_element['value_3'])
 
                 # URLが書かれている要素を取得
-                url_element = self.get_element.getElement(by=self.const_element['by_2'], value=self.const_element['value_2'])
+                url_elements = self.get_element.filterElements(parentElement=element, by=self.const_element['by_4'], value=self.const_element['value_4'])
+                self.logger.info(f"url_elements: {url_elements} 要素数: {len(url_elements)}つ")
 
-                if url_element is None:
-                    self.logger.error(f"{self.__class__.__name__} URLの要素が見つかりませんでした。")
-                    continue
+                url_str = url_elements[1].get_attribute("href")
+                self.logger.info(f"url: {url_str}")
 
-                # URL,抽出
-                url = url_element.get_attribute("href")
-                self.logger.info(f"URL: {url}")
-
-
-                # URLのリプライス（?highlight=ビザ などのおしり部分を削除）
-
+                title_str = url_elements[1].text
+                self.logger.info(f"記事名: {title_str}")
 
                 # 抽出したものを","で結合
-                join_element = ",".join(country_name, title_element, url_element)
+                join_element = ",".join([country_name, title_str, url_str])
                 self.logger.info(f"結合した要素: {join_element}")
 
                 # リストに追加
@@ -225,4 +200,6 @@ if __name__ == "__main__":
 
     test_flow = SingleProcess()
     # 引数入力
-    test_flow._single_process()
+
+    url = "https://www.nna.jp/search?search_history=1747857031087&highlight=%E3%83%93%E3%82%B6"
+    test_flow._single_process(url=url)
