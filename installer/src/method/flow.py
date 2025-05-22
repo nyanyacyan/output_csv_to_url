@@ -69,6 +69,8 @@ class SingleProcess:
     def _single_process(self, url):
         """各プロセスを実行する"""
         try:
+            self.logger.debug(f"url: {url}")
+
             # 引数にキーワード、期間、
             # ログイン
             self.login.flowLoginID(id_text=self.const_login_info['ID_INPUT_TEXT'], pass_text=self.const_login_info['PASS_INPUT_TEXT'], login_info=self.const_login_info)
