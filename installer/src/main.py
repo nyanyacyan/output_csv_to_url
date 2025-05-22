@@ -60,7 +60,7 @@ if __name__ == "__main__":
     submit_button.grid(row=4, column=0, padx=20)
 
     # cancelボタン作成
-    cancel_button = ttk.Button(running_frame, text="閉じる", command=quit)
+    cancel_button = ttk.Button(running_frame, text="閉じる", command=window.destroy)
     cancel_button.grid(row=4, column=1, padx=20)
 
     # error_messageフレーム作成
