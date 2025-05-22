@@ -7,7 +7,6 @@
 
 # flow
 from method.flow import SingleProcess
-from method.base.utils.logger import Logger
 from tkinter import *
 from tkinter import messagebox, ttk
 
@@ -51,24 +50,6 @@ if __name__ == "__main__":
     #search_urlの入力ラベル（真ん中）
     search_url_entry = ttk.Entry(search_url_frame, width=48)
     search_url_entry.grid(row=0, column=1, padx=(10, 0))
-
-    # ボタンなし
-
-
-    # # レコメンド入力欄 大枠フレーム作成
-    # recommend_frame = ttk.Frame(window, padding=(10, 20, 0, 10))
-    # recommend_frame.grid(row=1, column=0, sticky=W)
-
-    # #recommend 説明欄（左側）
-    # # padding=(10, 10)この部分がラベルの余白を設定。左側「左右」、右側「上下」の余白
-    # recommend_label = ttk.Label(recommend_frame, text="レコメンド", width=8, padding=(10, 10))
-    # recommend_label.grid(row=1, column=0)
-
-    # #recommend 入力ラベル（真ん中）
-    # recommend_entry = ttk.Entry(recommend_frame, width=25)
-    # recommend_entry.grid(row=1, column=1, padx=(10, 0))
-
-    # ボタンなし
 
     # Runningフレーム作成
     running_frame = ttk.Frame(window, padding=(60, 0, 10, 0))
