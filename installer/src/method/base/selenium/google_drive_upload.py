@@ -3,13 +3,11 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # import
-import os, re
+import re, pathlib
 from typing import Dict
-from pathlib import Path
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseUpload
 from google.oauth2.service_account import Credentials
-from io import BytesIO
 
 # 自作モジュール
 from method.base.utils.logger import Logger
@@ -18,8 +16,6 @@ from method.base.utils.fileWrite import FileWrite
 from method.base.spreadsheet.spreadsheetWrite import GssWrite
 
 # const
-from method.const_str import DriveMime
-from method.const_element import ErrCommentInfo
 
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -45,7 +41,7 @@ class GoogleDriveUpload:
         try:
             parents_folder_id = self._get_parents_folder_id(parents_folder_url=parents_folder_url)
             self.logger.debug(f'file_path: {file_path}')
-            file_name = Path(file_path).name
+            file_name = pathlib.Path(file_path).name
             self.logger.debug(f'file_name: {file_name}')
 
             upload_folder_id = parents_folder_id  # デフォルトで親フォルダにアップする

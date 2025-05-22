@@ -5,8 +5,8 @@
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 # import
+import pathlib
 import os, platform
-from pathlib import Path
 from datetime import datetime
 
 # 自作モジュール
@@ -78,7 +78,7 @@ class BaseToPath:
 
     @property
     def currentDir(self):
-        currentDirPath = Path(__file__).resolve()
+        currentDirPath = pathlib.Path(__file__).resolve()
         return currentDirPath
 
     # ----------------------------------------------------------------------------------
@@ -117,7 +117,7 @@ class BaseToPath:
     # ----------------------------------------------------------------------------------
     # ディレクトリがない可能性の箇所に貼る関数
 
-    def isDirExists(self, path: Path):
+    def isDirExists(self, path: pathlib):
         if not path.exists():
             # 親のディレクトリも作成、指定していたディレクトリが存在してもエラーを出さない
             path.mkdir(parents=True, exist_ok=True)
@@ -129,7 +129,7 @@ class BaseToPath:
     # ----------------------------------------------------------------------------------
     # ディレクトリがない可能性の箇所に貼る関数
 
-    def isFileExists(self, path: Path):
+    def isFileExists(self, path: pathlib):
         if not path.exists():
             path.touch()
             self.logger.info(f"{path.name} がないため作成")
@@ -227,7 +227,7 @@ class BaseToPath:
     # input_photo内にあるすべてのファイルのフルパスをリスト化する
 
     def _get_photos_all_path_list(self, photo_dir: str):
-        dir_path = Path(photo_dir)
+        dir_path = pathlib.Path(photo_dir)
         all_photos_all_path_list = [file for file in dir_path.rglob('*') if file.is_file()]
         self.logger.debug(f'all_photos_all_path_list: {all_photos_all_path_list}')
         return all_photos_all_path_list

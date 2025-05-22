@@ -3,16 +3,13 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # import
-import time, re, os, json
+import time, json
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select
 from datetime import datetime
-from typing import Dict, Any, List, Tuple
-from selenium.webdriver.common.by import By
 from selenium.common.exceptions import ElementClickInterceptedException, ElementNotInteractableException, NoSuchElementException, TimeoutException, WebDriverException
-from pathlib import Path
+
 
 
 
@@ -28,7 +25,6 @@ from method.base.selenium.driverDeco import ClickDeco
 from method.base.selenium.driverWait import Wait
 
 # const
-from method.const_str import ErrorComment
 
 decoInstance = Decorators()
 

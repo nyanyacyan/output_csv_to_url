@@ -3,8 +3,8 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # import
-import os
-from pathlib import Path
+import pathlib
+
 
 import pandas as pd
 from typing import List
@@ -35,7 +35,7 @@ class SearchFileNameHead:
         try:
             search_file_name_parts = f"{file_name_head}*{extension}"
             self.logger.debug(f'search_file_name_parts: {search_file_name_parts}')
-            search_path = Path(search_folder_path)
+            search_path = pathlib.Path(search_folder_path)
             self.logger.debug(f'search_path: {search_path}')
 
             for f in search_path.iterdir():

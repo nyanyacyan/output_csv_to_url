@@ -11,7 +11,6 @@ from datetime import datetime
 from typing import Dict, Any, List, Tuple
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import ElementClickInterceptedException, ElementNotInteractableException, NoSuchElementException, TimeoutException, WebDriverException
-from pathlib import Path
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 

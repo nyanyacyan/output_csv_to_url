@@ -4,13 +4,10 @@
 # テストOK
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # import
-import logging
-import os
-import shutil
+import logging, os, shutil, pathlib
 from datetime import datetime
 
 # 自作モジュール
-from pathlib import Path
 from method.const_str import FileName
 
 
@@ -154,7 +151,7 @@ class Logger:
 
     @property
     def currentDir(self):
-        currentDirPath = Path(__file__).resolve()
+        currentDirPath = pathlib.Path(__file__).resolve()
         return currentDirPath
 
 
@@ -173,7 +170,7 @@ class Logger:
 # ----------------------------------------------------------------------------------
 # # ディレクトリがない可能性の箇所に貼る関数
 
-    def isDirectoryExists(self, path: Path):
+    def isDirectoryExists(self, path: pathlib):
         if not path.exists():
             # 親のディレクトリも作成、指定していたディレクトリが存在してもエラーを出さない
             path.mkdir(parents=True, exist_ok=True)

@@ -2,9 +2,8 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # import
-import os, shutil, zipfile
-from datetime import datetime, date
-from pathlib import Path
+import os, pathlib, zipfile
+from datetime import datetime
 
 
 # 自作モジュール
@@ -55,7 +54,7 @@ class ZipOperation:
     # ----------------------------------------------------------------------------------
     # フォルダ名が被らないようにする
 
-    def _get_unique_folder_path(self, base_path: Path):
+    def _get_unique_folder_path(self, base_path: pathlib):
         if not os.path.exists(base_path):
             return base_path
 

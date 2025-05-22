@@ -2,9 +2,8 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # import
-import os, shutil
+import os, shutil, pathlib
 from datetime import datetime
-from pathlib import Path
 from typing import List
 
 
@@ -35,7 +34,7 @@ class FileMove:
 
     def move_csv_dl_to_outputDir(self, account_dir_name: str, sub_dir_name: str, file_name_head: str, extension: str):
         try:
-            downloads_path = Path(self._downloads_path())
+            downloads_path = pathlib.Path(self._downloads_path())
 
             search_file_name_word = f"{file_name_head}*{extension}"
             self.logger.debug(f'search_file_name_word: {search_file_name_word}')
@@ -62,7 +61,7 @@ class FileMove:
 
     def move_csv_dl_to_outputDir_list(self, account_dir_name: str, sub_dir_name: str, file_name_heads: List, extension: str):
         try:
-            downloads_path = Path(self._downloads_path())
+            downloads_path = pathlib.Path(self._downloads_path())
             all_matching_files = []
 
             for head in file_name_heads:
