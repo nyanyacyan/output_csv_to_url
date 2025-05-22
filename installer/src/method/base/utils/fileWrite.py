@@ -93,7 +93,8 @@ class FileWrite:
 
     @decoInstance.fileRetryAction(maxRetry=2, delay=2)
     def write_cst_to_list(self, col_names: List, data: Any, fileName: str, extension: str = ".csv"):
-        fullPath = self.path.getWriteFilePath(fileName=fileName)
+        full_file_name = f"{fileName}{extension}"
+        fullPath = self.path.getWriteFilePath(fileName=full_file_name)
         # filePath = os.path.join(fullPath, f"{self.currentDate}{extension}")
         self.logger.debug(f"filePath: {fullPath}")
         self.logger.debug(f"col_names: {col_names}")

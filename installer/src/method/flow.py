@@ -104,10 +104,13 @@ class SingleProcess:
 
             csv_list = []
             # 要素１つずつにアクセス
-            for element in li_elements:
+            for e in li_elements:
+                self.logger.info(f"element: {e}")
+                # country_name_elements = self.get_element.filterElements(parentElement=e, value=self.const_element['value_2'])
+                # self.logger.info(f"country_name_elements: {country_name_elements} 要素数: {len(country_name_elements)}つ")
 
                 # 国名が書かれている要素を取得
-                country_name_element = self.get_element.filterElement(parentElement=element, value=self.const_element['value_2'])
+                country_name_element = self.get_element.filterElement(parentElement=e, value=self.const_element['value_2'])
 
                 # 国名,抽出
                 if country_name_element is None:
@@ -118,7 +121,7 @@ class SingleProcess:
                 self.logger.info(f"国名: {country_name}")
 
                 # URLが書かれている要素を取得
-                url_elements = self.get_element.filterElements(parentElement=element, by=self.const_element['by_4'], value=self.const_element['value_4'])
+                url_elements = self.get_element.filterElements(parentElement=e, by=self.const_element['by_4'], value=self.const_element['value_4'])
                 self.logger.info(f"url_elements: {url_elements} 要素数: {len(url_elements)}つ")
 
                 url_str = url_elements[1].get_attribute("href")

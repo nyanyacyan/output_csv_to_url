@@ -116,7 +116,7 @@ class Element(Enum):
         "value_1": 'li',
 
         # 国名の取得
-        "value_2": '//a[@class="tag--country"]',
+        "value_2": './/a[@class="tag--country"]',
 
         # 記事名の取得
         "by_3": "tag",
