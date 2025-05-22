@@ -14,47 +14,17 @@ load_dotenv()
 
 
 # ----------------------------------------------------------------------------------
-# GSS情報
 
-
-class GssInfo(Enum):
-
+class GUIInfo(Enum):
     OUTPUT_CSV = {
-        "JSON_KEY_NAME": "sns-auto-430920-08274ad68b41.json",
-        "SHEET_URL": "https://docs.google.com/spreadsheets/d/1g7ycnDup8DYweQA7J1y7yT-ADrsvWSjw8ILQVdYcBEo/edit?gid=931453217#gid=931453217",
-        "TARGET_WORKSHEET_NAME": "ターゲットリスト",
-        "ACCOUNT_WORKSHEET_NAME": "アカウント",
-        "WORKSHEET_NAME": "ターゲットリスト",
-
-        # account
-        "ACCOUNT_ID": "ID",
-        "ACCOUNT_PASS": "Pass",
-        "POST_COMPLETE_DATE": "最新実施日時",
-        "ERROR_DATETIME": "エラー日時",
-        "ERROR_COMMENT": "エラー理由",
-
-
-        # column名
-        "CHECK": "チェック",
-
-        "NAME": "ユーザー名",
-        "TARGET_USER_URL": "アカウントURL",
-        "TARGET_WORKSHEET_URL": "出力先",
-        "TARGET_COLUMN_WORKSHEET_NAME": "worksheet名",
-
-        # target_worksheetのcolumn名
-        "TARGET_INPUT_USERNAME": "ユーザー名",
-        "TARGET_INPUT_USER_URL": "URL",
-        "TARGET_INPUT_TYPE": "コメント or いいね",
-        "TARGET_INPUT_DATE": "追加日",
-        "START_DAYTIME": "取得開始日時",
-        "END_DAYTIME": "取得終了日時",
-        "RUNNING_DATE": "実施日時",
-        "WRITE_ERROR": "エラー",
-
-        "DRIVE_PARENTS_URL": "https://drive.google.com/drive/folders/17m3IFY35w-QWcwn39cM8BEAk7qWQwVts",
+        "WINDOW_TITLE": "NNA_SITE_CSV_tool",
+        "WINDOW_WIDTH": 445,
+        "WINDOW_HEIGHT": 260,
+        "WINDOW_PADDING": (10, 20, 0, 10),
+        "WINDOW_POSITION_X": 0,
+        "WINDOW_POSITION_Y": 0,
+        "WINDOW_RESIZE": False,
     }
-
 
 # ----------------------------------------------------------------------------------
 # ログイン情報

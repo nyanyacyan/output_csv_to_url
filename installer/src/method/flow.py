@@ -167,7 +167,6 @@ class SingleProcess:
             process_error_comment = ( f"{self.__class__.__name__} 処理中にエラーが発生 {e}" )
             self.logger.error(process_error_comment)
 
-
         finally:
             # ✅ Chrome を終了
             self.chrome.quit()

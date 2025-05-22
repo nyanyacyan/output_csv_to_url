@@ -10,7 +10,7 @@ from method.base.spreadsheet.spreadsheetWrite import GssWrite
 from method.base.utils.popup import Popup
 
 # const
-from method.const_element import GssInfo, LoginInfo, ErrCommentInfo
+from method.const_element import LoginInfo, ErrCommentInfo
 
 # ----------------------------------------------------------------------------------
 ####################################################################################
