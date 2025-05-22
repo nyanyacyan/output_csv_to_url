@@ -23,7 +23,7 @@ load_dotenv()
 def submit(url: str):
     main_flow = SingleProcess()
     main_flow._single_process(url=url)
-    messagebox.showinfo("html生成完了", "「result_output」の中にある「result_html_data」をご確認ください")
+    messagebox.showinfo("CSV出力完了", "「resultOutput」の中にあるデータをご確認ください")
 
 # **********************************************************************************
 
@@ -78,8 +78,6 @@ if __name__ == "__main__":
     # error_messageラベル作成
     error_message_label = ttk.Label(error_frame, text="", foreground="red", wraplength=480, font=("Helvetica", 10))
     error_message_label.grid(row=3, column=0)
-
-
 
     # Runningフレーム作成
     running_frame = ttk.Frame(window, padding=(60, 15, 10, 0))

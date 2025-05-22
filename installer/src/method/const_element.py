@@ -18,8 +18,8 @@ load_dotenv()
 class GUIInfo(Enum):
     OUTPUT_CSV = {
         "WINDOW_TITLE": "NNA_SITE_CSV_tool",
-        "WINDOW_WIDTH": 445,
-        "WINDOW_HEIGHT": 260,
+        "WINDOW_WIDTH": 450,
+        "WINDOW_HEIGHT": 160,
         "WINDOW_PADDING": (10, 20, 0, 10),
         "WINDOW_POSITION_X": 0,
         "WINDOW_POSITION_Y": 0,

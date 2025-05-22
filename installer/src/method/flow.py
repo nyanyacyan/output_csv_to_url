@@ -20,7 +20,6 @@ from method.base.decorators.decorators import Decorators
 from method.base.selenium.google_drive_download import GoogleDriveDownload
 from method.base.spreadsheet.spreadsheetWrite import GssWrite
 from method.base.spreadsheet.select_cell import GssSelectCell
-from method.base.spreadsheet.err_checker_write import GssCheckerErrWrite
 from method.base.selenium.loginWithId import SingleSiteIDLogin
 from method.base.utils.popup import Popup
 from method.base.selenium.click_element import ClickElement
@@ -74,7 +73,6 @@ class SingleProcess:
         self.drive_download = GoogleDriveDownload()
         self.drive_upload = GoogleDriveUpload()
         self.select_cell = GssSelectCell()
-        self.gss_check_err_write = GssCheckerErrWrite()
         self.popup = Popup()
         self.click_element = ClickElement(chrome=self.chrome)
         self.file_move = FileMove()
