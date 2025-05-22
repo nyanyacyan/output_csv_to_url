@@ -5,28 +5,20 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # import
-import os   
+import os
 from datetime import datetime
-from selenium.common.exceptions import ElementClickInterceptedException, ElementNotInteractableException, NoSuchElementException, TimeoutException, WebDriverException
+from selenium.common.exceptions import NoSuchElementException
 
 # 自作モジュール
 from method.base.utils.logger import Logger
 from method.base.selenium.chrome import ChromeManager
 from method.base.selenium.loginWithId import SingleSiteIDLogin
 from method.base.selenium.seleniumBase import SeleniumBasicOperations
-from method.base.spreadsheet.spreadsheetRead import GetDataGSSAPI
 from method.base.selenium.get_element import GetElement
 from method.base.decorators.decorators import Decorators
-from method.base.selenium.google_drive_download import GoogleDriveDownload
-from method.base.spreadsheet.spreadsheetWrite import GssWrite
-from method.base.spreadsheet.select_cell import GssSelectCell
 from method.base.selenium.loginWithId import SingleSiteIDLogin
 from method.base.utils.popup import Popup
 from method.base.selenium.click_element import ClickElement
-from method.base.utils.file_move import FileMove
-from method.base.selenium.google_drive_upload import GoogleDriveUpload
-from method.base.selenium.driverWait import Wait
-from method.base.utils.sub_date_mrg import DateManager
 from method.base.utils.fileWrite import FileWrite
 
 
@@ -62,23 +54,13 @@ class SingleProcess:
         self.popup_cmt = PopUpComment.OUTPUT_CSV.value
         self.const_csv_info = CsvInfo.OUTPUT_CSV.value
 
-
         # インスタンス
         self.login = SingleSiteIDLogin(chrome=self.chrome)
         self.random_sleep = SeleniumBasicOperations(chrome=self.chrome)
         self.get_element = GetElement(chrome=self.chrome)
         self.selenium = SeleniumBasicOperations(chrome=self.chrome)
-        self.gss_read = GetDataGSSAPI()
-        self.gss_write = GssWrite()
-        self.drive_download = GoogleDriveDownload()
-        self.drive_upload = GoogleDriveUpload()
-        self.select_cell = GssSelectCell()
         self.popup = Popup()
         self.click_element = ClickElement(chrome=self.chrome)
-        self.file_move = FileMove()
-        self.wait = Wait(chrome=self.chrome)
-        self.date_manager = DateManager()
-        self.select_cell = GssSelectCell()
         self.file_write = FileWrite()
 
     # **********************************************************************************
@@ -171,15 +153,6 @@ class SingleProcess:
             self.popup.popupCommentOnly( popupTitle=self.popup_cmt["POPUP_COMPLETE_TITLE"], comment=self.popup_cmt["POPUP_COMPLETE_MSG"], )
 
     # ----------------------------------------------------------------------------------
-
-    def _delete_file(self, file_path: str):
-        if os.path.exists(file_path):
-            os.remove(file_path)
-            self.logger.info(f"指定のファイルの削除を実施: {file_path}")
-
-        else:
-            self.logger.error( f"{self.__class__.__name__} ファイルが存在しません: {file_path}" )
-
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # テスト実施
