@@ -66,7 +66,7 @@ class SingleProcess:
     # **********************************************************************************
     # ----------------------------------------------------------------------------------
 
-    def _single_process(self, url):
+    def _single_process(self, url: str, keyword: str):
         """各プロセスを実行する"""
         try:
             self.logger.debug(f"url: {url}")
@@ -91,8 +91,31 @@ class SingleProcess:
                 self.logger.info(f"{self.__class__.__name__} ログイン移行画面は表示されませんでした。")
 
             # 新しいページでurlを開く
-            self.get_element._open_new_page(url=url)
+            # self.get_element._open_new_page(url=url)
+            # self.random_sleep._random_sleep(2, 5)
+
+            # 詳細検索をクリック
+            self.click_element.clickElement(value=self.const_element['DETAIL_SEARCH_VALUE'])
             self.random_sleep._random_sleep(2, 5)
+
+            # キーワードの入力
+            self.get_element.clickClearInput(value=self.const_element['KEYWORD_VALUE'], inputText=keyword)
+            self.random_sleep._random_sleep(2, 5)
+
+            # TODO 期間をクリック
+            self.click_element.clickElement(value=self.const_element['DETAIL_SEARCH_VALUE'])
+            self.random_sleep._random_sleep(2, 5)
+
+            # TODO 1日以内をクリック
+            self.click_element.clickElement(value=self.const_element['DETAIL_SEARCH_VALUE'])
+            self.random_sleep._random_sleep(2, 5)
+
+            # TODO 国をクリック
+            self.click_element.clickElement(value=self.const_element['DETAIL_SEARCH_VALUE'])
+            self.random_sleep._random_sleep(2, 5)
+
+            # TODO 国を選択するためにクリック
+
 
             # 要素のリスト取得（テーブルの取得）
             main_element = self.get_element.getElement(by=self.const_element['BY_MAIN'], value=self.const_element['VALUE_MAIN'])

@@ -19,7 +19,7 @@ class GUIInfo(Enum):
     OUTPUT_CSV = {
         "WINDOW_TITLE": "NNA_SITE_CSV_tool",
         "WINDOW_WIDTH": 600,
-        "WINDOW_HEIGHT": 160,
+        "WINDOW_HEIGHT": 240,
         "WINDOW_PADDING": (10, 20, 0, 10),
         "WINDOW_POSITION_X": 0,
         "WINDOW_POSITION_Y": 0,
@@ -102,6 +102,12 @@ class Element(Enum):
         # ログイン移行画面の際にクリックする要素
         "LOGIN_TRANSFER_ID": "xpath",
         "LOGIN_TRANSFER_VALUE": '//button[.//span[text()="はい"]]',
+
+        # 詳細検索の要素
+        "DETAIL_SEARCH_VALUE": '//span[text()="詳細検索"]',
+
+        # キーワードの要素
+        "KEYWORD_VALUE": '//input[@placeholder="キーワードを入力"]',
 
         # main要素の取得
         "BY_MAIN": 'tag',
