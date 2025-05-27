@@ -5,13 +5,11 @@
 
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # import
-import os
 from datetime import datetime
-from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.chrome.webdriver import WebDriver
 
 # 自作モジュール
 from method.base.utils.logger import Logger
-from method.base.selenium.chrome import ChromeManager
 from method.base.selenium.loginWithId import SingleSiteIDLogin
 from method.base.selenium.seleniumBase import SeleniumBasicOperations
 from method.base.selenium.get_element import GetElement
@@ -23,7 +21,7 @@ from method.base.utils.fileWrite import FileWrite
 
 
 # const
-from method.const_element import ( CsvInfo, LoginInfo, ErrCommentInfo, PopUpComment, Element, )
+from method.const_element import ( CsvInfo, LoginInfo, ErrCommentInfo, PopUpComment, Element, KeyWordInfo)
 
 # flow
 
@@ -189,8 +187,8 @@ class FlowJaAsiaEntry:
 
 if __name__ == "__main__":
 
-    test_flow = SingleProcess()
+    test_flow = FlowJaAsiaEntry()
     # 引数入力
 
     url = "https://www.nna.jp/search?search_history=1747857031087&highlight=%E3%83%93%E3%82%B6"
-    test_flow._single_process(url=url)
+    test_flow.single_process(url=url)
