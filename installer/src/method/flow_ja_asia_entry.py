@@ -161,7 +161,7 @@ class FlowJaAsiaEntry:
             self.logger.info(f"csv_list: {csv_list}")
 
             # csvファイルに書き込めるように修正
-            file_name = f"nna_{self.timestamp_two}"
+            file_name = f"日系製造業のアジア進出_{self.timestamp_two}"
 
             # csvファイルに書き込み
             self.file_write.write_cst_to_list(col_names=self.const_csv_info['COL_NAME'], data=csv_list, fileName=file_name)
