@@ -113,9 +113,9 @@ class Element(Enum):
         # 詳細検索部分
         "KEYWORD_VALUE": '//input[@placeholder="キーワードを入力"]',
         "TIME_LIMIT_VALUE_1": '//button[span[text()="全期間"]]',
-        "COUNTRY_VALUE_1": "",
-        "INDUSTRY_VALUE_1": "",
-        "TARGET_SEARCH_VALUE_1": "",
+        "COUNTRY_VALUE_1": '(//button[span[text()="全て"]])[1]',
+        "INDUSTRY_VALUE_1": '(//button[span[text()="全て"]])[2]',
+        "TARGET_SEARCH_VALUE_1": '//button[span[text()="全ての記事"]]',
         "SEARCH_BTN_VALUE": '//button[span[contains(text(), "検索")]]',
 
 
@@ -258,10 +258,10 @@ class CountryInfo(Enum):
 class CategoryDetailInfo(Enum):
     # アジア渡航・交通情報②
     ASIA_TRANSPORT = {
-        "陸運": "category_detail.32",
-        "海運": "category_detail.33",
-        "空運": "category_detail.34",
-        "観光": "category_detail.92",
+        "陸運": "category_detail.53",
+        "海運": "category_detail.54",
+        "空運": "category_detail.55",
+        "観光": "category_detail.56",
     }
 
     # 中国EVの世界戦略

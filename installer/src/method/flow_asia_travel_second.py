@@ -106,11 +106,12 @@ class FlowAsiaTravelSecond:
             # self.click_element.continue_click_checkbox(value_dict=CountryInfo.COUNTRY_DICT.value,)
 
             # TODO 業種をクリック
-            self.click_element.clickElement(value=self.const_element['DETAIL_SEARCH_VALUE'])
+            self.click_element.clickElement(value=self.const_element['INDUSTRY_VALUE_1'])
             self.random_sleep._random_sleep(2, 5)
 
             # TODO 各業種を選択するためにクリック→keyの数を数えてその分繰り返し実施
-            self.click_element.continue_click_checkbox(value_dict=CountryInfo.COUNTRY_DICT.value,)
+            self.click_element.continue_click_checkbox(value_dict=CategoryDetailInfo.ASIA_TRANSPORT.value,)
+            self.random_sleep._random_sleep(2, 5)
 
             # 検索対象をクリック
             # self.click_element.clickElement(value=self.const_element['DETAIL_SEARCH_VALUE'])
