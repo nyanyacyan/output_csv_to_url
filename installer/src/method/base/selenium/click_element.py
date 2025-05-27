@@ -4,6 +4,7 @@
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 # import
 import time, json
+from typing import Union, List, Dict
 from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.common.keys import Keys
@@ -18,7 +19,7 @@ from method.base.utils.logger import Logger
 from method.base.utils.path import BaseToPath
 from method.base.utils.popup import Popup
 from method.base.selenium.get_element import GetElement
-
+from method.base.selenium.seleniumBase import SeleniumBasicOperations
 from method.base.decorators.decorators import Decorators
 from method.base.utils.textManager import TextManager
 from method.base.selenium.driverDeco import ClickDeco
@@ -41,6 +42,7 @@ class ClickElement:
 
         self.chrome = chrome
         self.get_element = GetElement(chrome=self.chrome)
+        self.random_sleep = SeleniumBasicOperations(chrome=self.chrome)
         self.currentDate = datetime.now().strftime("%y%m%d_%H%M%S")
         self.textManager = TextManager()
         self.clickWait = ClickDeco()
@@ -145,6 +147,40 @@ class ClickElement:
 
         self.clickWait.jsPageChecker(chrome=self.chrome)
         return element
+
+    # ----------------------------------------------------------------------------------
+    # クリックのみ(要素は別で取得)
+
+    def continue_click_checkbox(self, value_dict: Dict):
+            unit_list = value_dict.keys()  # チェックボックスのキーをリスト化
+            value_list = value_dict.values()  # チェックボックスの値をリスト化
+            self.logger.info(f"チェックボックスのキー: {unit_list}")
+            self.logger.info(f"チェックボックスの値: {value_list}")
+
+            value_num = len(value_list)
+            self.logger.info(f"チェックボックスの数: {value_num}")
+
+            for i, value in enumerate(value_list):
+                try:
+                    self.logger.debug(f"value: {value}")
+                    checkbox_element = self.get_element.getElement(by="id", value=value)
+                    checkbox_element.click()
+                    self.logger.debug(f"{i}/{value_num} チェックボックスをクリック: {checkbox_element}")
+                    self.random_sleep._random_sleep(2, 5)
+
+                except ElementClickInterceptedException:
+                    self.logger.debug(f"popupなどでClickができません: {checkbox_element}")
+                    self.chrome.execute_script("arguments[0].click();", checkbox_element)
+
+                except ElementNotInteractableException:
+                    self.logger.debug(f"要素があるんだけどクリックができません: {checkbox_element}")
+                    self.chrome.execute_script("arguments[0].click();", checkbox_element)
+                    self.logger.info(f"jsにてクリック実施: {checkbox_element}")
+
+            units_str = ", ".join(unit_list)
+            self.logger.info(f"{units_str} すべてクリックしました")
+
+            self.clickWait.jsPageChecker(chrome=self.chrome)
 
     # ----------------------------------------------------------------------------------
     # クリックのみ(要素は別で取得)

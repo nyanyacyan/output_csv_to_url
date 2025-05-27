@@ -167,47 +167,23 @@ class KeyWordInfo(Enum):
         "TIME_LIMIT": "１日以内",
 
         # アジア渡航・交通情報①
-        "ASIA_TRANSPORT_1": "ビザ",
-
-        # アジア渡航・交通情報②
-        "ASIA_TRANSPORT_2": "陸運",
-        "ASIA_TRANSPORT_3": "海運",
-        "ASIA_TRANSPORT_4": "空運",
-        "ASIA_TRANSPORT_5": "観光",
+        "ASIA_TRANSPORT": "ビザ",
 
         # 日系自動車メーカーの動向
-        "JA_AUTO_1": "トヨタ or ホンダ or スズキ or 日産 or 三菱自動車 or マツダ or ダイハツ or SUBARU or 日野自動車 or いすゞ or 三菱ふそう",
-        "JA_AUTO_2": "東アジア",
-        "JA_AUTO_3": "東南アジア",
-        "JA_AUTO_4": "南アジア",
+        "JA_AUTO": "トヨタ or ホンダ or スズキ or 日産 or 三菱自動車 or マツダ or ダイハツ or SUBARU or 日野自動車 or いすゞ or 三菱ふそう",
 
         # TRUMP関税で揺れるアジア
         "TRUMP": "トランプ",
 
         # 中国EVの世界戦略
-        "CHINA_EV_1": "中国 EV",
-        "CHINA_EV_2": "自動車",
+        "CHINA_EV": "中国 EV",
 
         # 韓国の政局混迷
-        "KOREA_1": "尹",
-        "KOREA_2": "韓国",
-        "KOREA_3": "政治",
+        "KOREA": "尹",
 
         # アジアを支える鉄道輸送
-        "ASIA_TRAIN_1": "鉄道",
+        "ASIA_TRAIN": "鉄道",
 
-        # 日系製造業のアジア進出
-        "JA_ASIA_ENTRY_1": "車両",
-        "JA_ASIA_ENTRY_2": "電機",
-        "JA_ASIA_ENTRY_3": "医薬",
-        "JA_ASIA_ENTRY_4": "化学",
-        "JA_ASIA_ENTRY_5": "繊維",
-        "JA_ASIA_ENTRY_6": "鉄鋼",
-        "JA_ASIA_ENTRY_7": "製造",
-        "JA_ASIA_ENTRY_8": "資源",
-        "JA_ASIA_ENTRY_9": "日系企業進出",
-        "": "",
-        "": "",
     }
 
 # ----------------------------------------------------------------------------------

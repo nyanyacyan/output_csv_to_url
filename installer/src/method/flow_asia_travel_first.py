@@ -26,14 +26,15 @@ from method.const_element import ( CsvInfo, LoginInfo, ErrCommentInfo, PopUpComm
 # flow
 
 deco = Decorators()
+
 # ----------------------------------------------------------------------------------
-#! アジアを支える鉄道輸送
+#! アジア渡航・交通情報
 # **********************************************************************************
 # 一連の流れ
 
 
-class FlowAsiaTrain:
-    """アジアを支える鉄道輸送の情報を取得するクラス"""
+class FlowAsiaTravelFirst:
+    """アジア渡航・交通情報のフローを管理するクラス"""
     def __init__(self, chrome: WebDriver):
         self.getLogger = Logger()
         self.logger = self.getLogger.getLogger()
@@ -186,7 +187,7 @@ class FlowAsiaTrain:
 
 if __name__ == "__main__":
 
-    test_flow = FlowAsiaTrain()
+    test_flow = FlowAsiaTravelFirst()
     # 引数入力
 
     url = "https://www.nna.jp/search?search_history=1747857031087&highlight=%E3%83%93%E3%82%B6"

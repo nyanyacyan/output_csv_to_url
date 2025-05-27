@@ -21,7 +21,7 @@ from method.base.utils.fileWrite import FileWrite
 
 
 # const
-from method.const_element import ( CsvInfo, LoginInfo, ErrCommentInfo, PopUpComment, Element, KeyWordInfo)
+from method.const_element import ( CsvInfo, LoginInfo, ErrCommentInfo, PopUpComment, Element, KeyWordInfo, CountryInfo, CategoryDetailInfo, TargetSearchInfo)
 
 # flow
 

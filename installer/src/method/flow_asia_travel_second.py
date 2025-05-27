@@ -21,7 +21,7 @@ from method.base.utils.fileWrite import FileWrite
 
 
 # const
-from method.const_element import ( CsvInfo, LoginInfo, ErrCommentInfo, PopUpComment, Element, KeyWordInfo)
+from method.const_element import ( CsvInfo, LoginInfo, ErrCommentInfo, PopUpComment, Element, KeyWordInfo, CountryInfo, CategoryDetailInfo, TargetSearchInfo)
 
 # flow
 
@@ -33,7 +33,7 @@ deco = Decorators()
 # 一連の流れ
 
 
-class FlowAsiaTravel:
+class FlowAsiaTravelSecond:
     """アジア渡航・交通情報のフローを管理するクラス"""
     def __init__(self, chrome: WebDriver):
         self.getLogger = Logger()
@@ -187,7 +187,7 @@ class FlowAsiaTravel:
 
 if __name__ == "__main__":
 
-    test_flow = FlowAsiaTravel()
+    test_flow = FlowAsiaTravelSecond()
     # 引数入力
 
     url = "https://www.nna.jp/search?search_history=1747857031087&highlight=%E3%83%93%E3%82%B6"
