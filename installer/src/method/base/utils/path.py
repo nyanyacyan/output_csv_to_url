@@ -5,7 +5,7 @@
 # $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 # import
-import pathlib
+import pathlib, sys
 import os, platform
 from datetime import datetime
 
@@ -95,9 +95,83 @@ class BaseToPath:
         return resultOutputPath
 
     # ----------------------------------------------------------------------------------
+
+    def get_result_path_in_exe(self, levelsUp: int = 5, dirName: str = Dir.result.value):
+        is_exe = self.is_exe()
+        if is_exe:
+            self.logger.warning("exeで実行されているため、デスクトップに保存します。")
+
+            os_type = self.get_os()
+            self.logger.debug(f"OSの種類: {os_type}")
+
+            if os_type == "Windows":
+                return self.get_result_dir_windows()
+
+            elif os_type == "Mac":
+                return self.get_result_dir_mac()
+
+        currentDirPath = self.currentDir
+        self.logger.info(f"levelsUp の型: {type(levelsUp)}: {levelsUp}")
+
+        # スタートが0で1つ上の階層にするため→levelsUpに１をいれたら１個上の階層にするため
+        resultOutputPath = currentDirPath.parents[levelsUp - 1] / dirName
+        self.logger.debug(f"{dirName}: {resultOutputPath}")
+        return resultOutputPath
+
+    # ----------------------------------------------------------------------------------
+    # exeで実行されているか確認
+
+    def is_exe(self):
+        if getattr(sys, 'frozen', False):
+            self.logger.warning("exeで実行されている")
+            return True
+
+    # ----------------------------------------------------------------------------------
+    # Macのパターン デスクトップに結果をresultOutputディレクトリを作成
+
+    def get_result_dir_mac(self):
+        desktop = pathlib.Path(os.environ["HOME"]) / "Desktop"
+        result_dir = desktop / "resultOutput"
+        result_dir.mkdir(parents=True, exist_ok=True)
+        self.logger.debug(f"Macの結果ディレクトリ: {result_dir}")
+        return result_dir
+
+    # ----------------------------------------------------------------------------------
+    # windowsパターン デスクトップに結果をresultOutputディレクトリを作成
+
+    def get_result_dir_windows(self):
+        onedrive_path = pathlib.Path(os.environ.get("OneDrive", ""))
+        if onedrive_path.exists():
+            self.logger.warning("OneDriveが有効になっているため、デスクトップに保存します。")
+            # OneDriveが有効な場合はデスクトップのパスを取得
+            desktop = pathlib.Path(os.environ["USERPROFILE"]) / "OneDrive" / "デスクトップ"
+        else:
+            self.logger.info("OneDriveは有効ではありません。")
+            desktop = pathlib.Path(os.environ["USERPROFILE"]) / "Desktop"
+        result_dir = desktop / "resultOutput"
+        result_dir.mkdir(parents=True, exist_ok=True)
+        return result_dir
+
+    # ----------------------------------------------------------------------------------
+    # OS確認
+
+    def get_os(self):
+        os_name = platform.system()
+        self.logger.debug(f"OS: {os_name}")
+
+        if os_name == "Windows":
+            self.logger.debug("Windows OSを検出しました。")
+            return os_name
+        elif os_name == "Darwin":
+            self.logger.debug("Mac OSを検出しました。")
+            return "Mac"
+        else:
+            self.logger.error("想定している OSではないため、処理を中断します。")
+            raise NotImplementedError("想定している OSではないため、処理を中断")
+
+    # ----------------------------------------------------------------------------------
     # inputDataへの大元の定義
     #! ディレクトリの変更があった場合にはレベルを調整
-
     def getInputDataPath(self, levelsUp: int = 3, dirName: str = Dir.input.value):
         currentDirPath = self.currentDir
 
