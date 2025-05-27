@@ -34,7 +34,7 @@ class LoginInfo(Enum):
 
     OUTPUT_CSV = {
         "LOGIN_URL": "https://www.nna.jp/login?redirect_url=/",
-        "HOME_URL": "",
+        "HOME_URL": "https://www.nna.jp/",
         "EXPLORE_URL": "https://www.OUTPUT_CSVgram.com/mon_guchi/p/DHipkplzBpR/",
         "ID_BY": "id",
         "ID_VALUE": "user_code",
@@ -106,8 +106,22 @@ class Element(Enum):
         # 詳細検索の要素
         "DETAIL_SEARCH_VALUE": '//span[text()="詳細検索"]',
 
-        # キーワードの要素
+
+        # 詳細検索部分
         "KEYWORD_VALUE": '//input[@placeholder="キーワードを入力"]',
+        "TIME_LIMIT_VALUE_1": "",
+        "COUNTRY_VALUE_1": "",
+        "INDUSTRY_VALUE_1": "",
+        "TARGET_SEARCH_VALUE_1": "",
+        "SEARCH_BTN_VALUE": "",
+
+
+        # モーダル選択
+        "TIME_LIMIT_VALUE_2": "",
+        "COUNTRY_VALUE_2": "",
+        "INDUSTRY_VALUE_2": "",
+        "TARGET_SEARCH_VALUE_2": "",
+
 
         # main要素の取得
         "BY_MAIN": 'tag',
@@ -142,5 +156,179 @@ class CsvInfo(Enum):
         "COL_NAME":  '["国名", "タイトル", "URL"]',
         "": "",
 
+    }
 
+# ----------------------------------------------------------------------------------
+
+
+class KeyWordInfo(Enum):
+    OUTPUT_CSV = {
+        # 期間
+        "TIME_LIMIT": "１日以内",
+
+        # アジア渡航・交通情報①
+        "ASIA_TRANSPORT_1": "ビザ",
+
+        # アジア渡航・交通情報②
+        "ASIA_TRANSPORT_2": "陸運",
+        "ASIA_TRANSPORT_3": "海運",
+        "ASIA_TRANSPORT_4": "空運",
+        "ASIA_TRANSPORT_5": "観光",
+
+        # 日系自動車メーカーの動向
+        "JA_AUTO_1": "トヨタ or ホンダ or スズキ or 日産 or 三菱自動車 or マツダ or ダイハツ or SUBARU or 日野自動車 or いすゞ or 三菱ふそう",
+        "JA_AUTO_2": "東アジア",
+        "JA_AUTO_3": "東南アジア",
+        "JA_AUTO_4": "南アジア",
+
+        # TRUMP関税で揺れるアジア
+        "TRUMP": "トランプ",
+
+        # 中国EVの世界戦略
+        "CHINA_EV_1": "中国 EV",
+        "CHINA_EV_2": "自動車",
+
+        # 韓国の政局混迷
+        "KOREA_1": "尹",
+        "KOREA_2": "韓国",
+        "KOREA_3": "政治",
+
+        # アジアを支える鉄道輸送
+        "ASIA_TRAIN_1": "鉄道",
+
+        # 日系製造業のアジア進出
+        "JA_ASIA_ENTRY_1": "車両",
+        "JA_ASIA_ENTRY_2": "電機",
+        "JA_ASIA_ENTRY_3": "医薬",
+        "JA_ASIA_ENTRY_4": "化学",
+        "JA_ASIA_ENTRY_5": "繊維",
+        "JA_ASIA_ENTRY_6": "鉄鋼",
+        "JA_ASIA_ENTRY_7": "製造",
+        "JA_ASIA_ENTRY_8": "資源",
+        "JA_ASIA_ENTRY_9": "日系企業進出",
+        "": "",
+        "": "",
+    }
+
+# ----------------------------------------------------------------------------------
+
+class CountryInfo(Enum):
+    # 日系自動車メーカーの動向
+    JA_AUTO = {
+        "タイ": "country_11",
+        "ベトナム": "country_4",
+        "ミャンマー": "country_69",
+        "カンボジア": "country_71",
+        "ラオス": "country_70",
+        "マレーシア": "country_8",
+        "シンガポール": "country_10",
+        "インドネシア": "country_5",
+        "フィリピン": "country_9",
+        "ブルネイ": "country_77",
+        "東ティモール": "country_103",
+        "中国": "country_2",
+        "香港": "country_3",
+        "マカオ": "country_72",
+        "台湾": "country_12",
+        "韓国": "country_7",
+        "北朝鮮": "country_73",
+        "モンゴル": "country_102",
+        "日本": "country_6",
+        "インド": "country_68",
+        "パキスタン": "country_78",
+        "アフガニスタン": "country_79",
+        "バングラデシュ": "country_80",
+        "スリランカ": "country_81",
+        "ネパール": "country_82",
+        "ブータン": "country_83",
+        "モルディブ": "country_84",
+    }
+    # 韓国の政局混迷
+    KOREA = {
+        "韓国": "country_7",
+    }
+
+    # アジアを支える鉄道輸送
+    ASIA_TRAIN = {
+        "中国": "country_2",
+        "香港": "country_3",
+        "マカオ": "country_4",
+        "台湾": "country_5",
+        "韓国": "country_6",
+        "タイ": "country_7",
+        "ベトナム": "country_8",
+        "ミャンマー": "country_9",
+        "カンボジア": "country_10",
+        "ラオス": "country_11",
+        "マレーシア": "country_12",
+        "シンガポール": "country_13",
+        "インドネシア": "country_14",
+        "フィリピン": "country_15",
+        "ブルネイ": "country_16",
+        "東ティモール": "country_17",
+        "インド": "country_18",
+        "スリランカ": "country_19",
+        "バングラデシュ": "country_20",
+        "パキスタン": "country_21",
+    }
+
+
+# ----------------------------------------------------------------------------------
+
+class CategoryDetailInfo(Enum):
+    # アジア渡航・交通情報②
+    ASIA_TRANSPORT = {
+        "陸運": "category_detail.32",
+        "海運": "category_detail.33",
+        "空運": "category_detail.34",
+        "観光": "category_detail.92",
+    }
+
+    # 中国EVの世界戦略
+    CHINA_EV = {
+        "自動車": "category_detail.6",
+    }
+
+    # 韓国の政局混迷
+    KOREA = {
+        "政治一般": "category_detail.69",
+        "外交": "category_detail.75",
+        "選挙": "category_detail.73",
+        "軍事": "category_detail.72",
+    }
+
+    # アジアを支える鉄道輸送
+    ASIA_TRAIN = {
+        "陸運": "category_detail.32",
+    }
+
+    # 日系製造業のアジア進出
+    JA_ASIA_ENTRY = {
+        "自動車": "category_detail.6",
+        "二輪車": "category_detail.7",
+        "車部品": "category_detail.77",
+        "電機": "category_detail.16",
+        "保健医療": "category_detail.19",
+        "医薬品": "category_detail.20",
+        "化学一般": "category_detail.21",
+        "バイオ": "category_detail.22",
+        "繊維": "category_detail.23",
+        "鉄鋼・金属": "category_detail.24",
+        "宝石・宝飾品": "category_detail.25",
+        "精密機器": "category_detail.27",
+        "ゴム・皮革": "category_detail.28",
+        "紙・パルプ": "category_detail.29",
+        "機械": "category_detail.30",
+        "ガラス・セメント": "category_detail.31",
+        "その他製造": "category_detail.26",
+        "石油・石炭・ガス": "category_detail.35",
+        "鉱業": "category_detail.36",
+    }
+
+# ----------------------------------------------------------------------------------
+
+class TargetSearchInfo(Enum):
+    # 日系製造業のアジア進出
+    JA_ASIA_ENTRY = {
+        "日系企業進出": "tag_from_japan",
     }
