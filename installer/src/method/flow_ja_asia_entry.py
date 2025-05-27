@@ -52,9 +52,6 @@ class FlowJaAsiaEntry:
         self.popup_cmt = PopUpComment.OUTPUT_CSV.value
         self.const_csv_info = CsvInfo.OUTPUT_CSV.value
 
-        # キーワード
-        self.keyword = KeyWordInfo.TRUMP.value
-
         # インスタンス
         self.login = SingleSiteIDLogin(chrome=self.chrome)
         self.random_sleep = SeleniumBasicOperations(chrome=self.chrome)
@@ -100,18 +97,21 @@ class FlowJaAsiaEntry:
             self.random_sleep._random_sleep(2, 5)
 
             # TODO 国を選択するためにクリック→keyの数を数えてその分繰り返し実施
+            self.click_element.continue_click_checkbox(value_dict=CountryInfo.COUNTRY_DICT.value,)
 
             # TODO 業種をクリック
             self.click_element.clickElement(value=self.const_element['DETAIL_SEARCH_VALUE'])
             self.random_sleep._random_sleep(2, 5)
 
             # TODO 各業種を選択するためにクリック→keyの数を数えてその分繰り返し実施
+            self.click_element.continue_click_checkbox(value_dict=CountryInfo.COUNTRY_DICT.value,)
 
             # TODO 検索対象をクリック
             self.click_element.clickElement(value=self.const_element['DETAIL_SEARCH_VALUE'])
             self.random_sleep._random_sleep(2, 5)
 
             # TODO 検索対象を選択するためにクリック→keyの数を数えてその分繰り返し実施
+            self.click_element.continue_click_checkbox(value_dict=CountryInfo.COUNTRY_DICT.value,)
 
             # TODO 検索ボタンをクリック
             self.click_element.clickElement(value=self.const_element['DETAIL_SEARCH_VALUE'])

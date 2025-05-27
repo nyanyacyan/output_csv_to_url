@@ -166,7 +166,7 @@ class ClickElement:
                     checkbox_element = self.get_element.getElement(by="id", value=value)
                     checkbox_element.click()
                     self.logger.debug(f"{i}/{value_num} チェックボックスをクリック: {checkbox_element}")
-                    self.random_sleep._random_sleep(2, 5)
+                    self.random_sleep._random_sleep(0.5, 1)
 
                 except ElementClickInterceptedException:
                     self.logger.debug(f"popupなどでClickができません: {checkbox_element}")

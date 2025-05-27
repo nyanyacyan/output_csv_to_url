@@ -162,29 +162,30 @@ class CsvInfo(Enum):
 
 
 class KeyWordInfo(Enum):
-    OUTPUT_CSV = {
-        # 期間
-        "TIME_LIMIT": "１日以内",
-
-        # アジア渡航・交通情報①
-        "ASIA_TRANSPORT": "ビザ",
-
-        # 日系自動車メーカーの動向
-        "JA_AUTO": "トヨタ or ホンダ or スズキ or 日産 or 三菱自動車 or マツダ or ダイハツ or SUBARU or 日野自動車 or いすゞ or 三菱ふそう",
-
-        # TRUMP関税で揺れるアジア
-        "TRUMP": "トランプ",
-
-        # 中国EVの世界戦略
-        "CHINA_EV": "中国 EV",
-
-        # 韓国の政局混迷
-        "KOREA": "尹",
-
-        # アジアを支える鉄道輸送
-        "ASIA_TRAIN": "鉄道",
-
+    # 期間
+    TIME_LIMIT = {
+        "SELECT_WORD": "１日以内",
+        "SELECT_VALUE": "today",
     }
+
+    # アジア渡航・交通情報①
+    ASIA_TRANSPORT = "ビザ"
+
+    # 日系自動車メーカーの動向
+    JA_AUTO = "トヨタ or ホンダ or スズキ or 日産 or 三菱自動車 or マツダ or ダイハツ or SUBARU or 日野自動車 or いすゞ or 三菱ふそう"
+
+    # TRUMP関税で揺れるアジア
+    TRUMP = "トランプ"
+
+    # 中国EVの世界戦略
+    CHINA_EV = "中国 EV"
+
+    # 韓国の政局混迷
+    KOREA = "尹"
+
+    # アジアを支える鉄道輸送
+    ASIA_TRAIN = "鉄道"
+
 
 # ----------------------------------------------------------------------------------
 
