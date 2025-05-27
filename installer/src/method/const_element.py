@@ -99,6 +99,9 @@ class CommentFlowElement(Enum):
 
 class Element(Enum):
     OUTPUT_CSV = {
+        # byのID
+        "BY_ID": "id",
+
         # ログイン移行画面の際にクリックする要素
         "LOGIN_TRANSFER_ID": "xpath",
         "LOGIN_TRANSFER_VALUE": '//button[.//span[text()="はい"]]',
@@ -109,19 +112,24 @@ class Element(Enum):
 
         # 詳細検索部分
         "KEYWORD_VALUE": '//input[@placeholder="キーワードを入力"]',
-        "TIME_LIMIT_VALUE_1": "",
+        "TIME_LIMIT_VALUE_1": '//button[span[text()="全期間"]]',
         "COUNTRY_VALUE_1": "",
         "INDUSTRY_VALUE_1": "",
         "TARGET_SEARCH_VALUE_1": "",
-        "SEARCH_BTN_VALUE": "",
+        "SEARCH_BTN_VALUE": '//button[span[contains(text(), "検索")]]',
 
 
         # モーダル選択
-        "TIME_LIMIT_VALUE_2": "",
+        "TIME_LIMIT_VALUE_2": "today",
         "COUNTRY_VALUE_2": "",
         "INDUSTRY_VALUE_2": "",
         "TARGET_SEARCH_VALUE_2": "",
 
+        # モーダル決定
+        "TIME_LIMIT_VALUE_3": '//div[contains(@class, "SearchModal_buttons")]/button[span[text()="選択"]]',
+        "COUNTRY_VALUE_3": "",
+        "INDUSTRY_VALUE_3": "",
+        "TARGET_SEARCH_VALUE_3": "",
 
         # main要素の取得
         "BY_MAIN": 'tag',
@@ -162,11 +170,6 @@ class CsvInfo(Enum):
 
 
 class KeyWordInfo(Enum):
-    # 期間
-    TIME_LIMIT = {
-        "SELECT_WORD": "１日以内",
-        "SELECT_VALUE": "today",
-    }
 
     # アジア渡航・交通情報①
     ASIA_TRANSPORT = "ビザ"

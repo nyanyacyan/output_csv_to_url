@@ -52,6 +52,8 @@ class FlowChinaEV:
         self.popup_cmt = PopUpComment.OUTPUT_CSV.value
         self.const_csv_info = CsvInfo.OUTPUT_CSV.value
 
+        self.by_id = self.const_element["BY_ID"]
+
         # インスタンス
         self.login = SingleSiteIDLogin(chrome=self.chrome)
         self.random_sleep = SeleniumBasicOperations(chrome=self.chrome)
@@ -85,11 +87,15 @@ class FlowChinaEV:
             self.random_sleep._random_sleep(2, 5)
 
             # 期間をクリック
-            self.click_element.clickElement(value=self.const_element['DETAIL_SEARCH_VALUE'])
+            self.click_element.clickElement(value=self.const_element['TIME_LIMIT_VALUE_1'])
             self.random_sleep._random_sleep(2, 5)
 
             # 1日以内をクリック
-            self.click_element.clickElement(value=self.const_element['DETAIL_SEARCH_VALUE'])
+            self.click_element.clickElement(by=self.by_id, value=self.const_element['TIME_LIMIT_VALUE_2'])
+            self.random_sleep._random_sleep(2, 5)
+
+            # 選択をクリック
+            self.click_element.clickElement(value=self.const_element['TIME_LIMIT_VALUE_3'])
             self.random_sleep._random_sleep(2, 5)
 
             # 国をクリック
@@ -113,8 +119,8 @@ class FlowChinaEV:
             # 検索対象を選択するためにクリック→keyの数を数えてその分繰り返し実施
             # self.click_element.continue_click_checkbox(value_dict=CountryInfo.COUNTRY_DICT.value,)
 
-            # TODO 検索ボタンをクリック
-            self.click_element.clickElement(value=self.const_element['DETAIL_SEARCH_VALUE'])
+            # 検索ボタンをクリック
+            self.click_element.clickElement(value=self.const_element['SEARCH_BTN_VALUE'])
             self.random_sleep._random_sleep(2, 5)
 
             # 要素のリスト取得（テーブルの取得）
@@ -177,8 +183,8 @@ class FlowChinaEV:
 
         finally:
             # ✅ Chrome を終了
-            self.chrome.quit()
-            self.popup.popupCommentOnly( popupTitle=self.popup_cmt["POPUP_COMPLETE_TITLE"], comment=self.popup_cmt["POPUP_COMPLETE_MSG"], )
+            self.chrome.close()
+            # self.popup.popupCommentOnly( popupTitle=self.popup_cmt["POPUP_COMPLETE_TITLE"], comment=self.popup_cmt["POPUP_COMPLETE_MSG"], )
 
     # ----------------------------------------------------------------------------------
 
